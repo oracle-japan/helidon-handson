@@ -4,6 +4,7 @@ package com.example.handson.helidon;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
@@ -34,8 +35,11 @@ public class PrefectureResource {
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Prefecture getPrefectureById(@PathParam("id") String id) {
-        Prefecture prefecture = entityManager.find(Prefecture.class, Integer.valueOf(id));
-        if (prefecture == null) {
+        TypedQuery<Prefecture> query = entityManager.createNamedQuery("getPrefectureById", Prefecture.class);
+        Prefecture prefecture = new Prefecture();
+        try {
+            prefecture = query.setParameter("id", Integer.valueOf(id)).getSingleResult();
+        } catch (NoResultException ne) {
             throw new NotFoundException("Unable to find prefecture with ID " + id);
         }
         return prefecture;

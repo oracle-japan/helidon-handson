@@ -17,7 +17,9 @@ import javax.persistence.Table;
     @NamedQuery(name = "getPrefectures",
                 query = "SELECT p FROM Prefecture p"),
     @NamedQuery(name = "getPrefectureByName",
-                query = "SELECT p FROM Prefecture p WHERE p.name = :name")
+                query = "SELECT p FROM Prefecture p WHERE p.name = :name"),
+    @NamedQuery(name = "getPrefectureById",
+                query = "SELECT p FROM Prefecture p WHERE p.id = :id")
 })
 public class Prefecture {
 
